@@ -202,7 +202,7 @@ let make_move pos m del =
         let (y1, y2) = match t with White -> (6, 7) | Black -> (1, 0) in
         mv x1 y1 x2 y2; ar2.(x2).(y2) <- Piece(pt, pos.turn); tmp;
     | Move(x1, y1, x2, y2) -> 
-            ((match pos.ar.(x2).(y2) with Empty -> ic := false | _ -> ());
+            ((match pos.ar.(x2).(y2) with Empty -> () | _ -> ic := true);
         mv x1 y1 x2 y2;
         let p = (match ar2.(x2).(y2) with Piece(x, _) -> x | Empty -> raise Illegal_move) in
         ( match p with
@@ -211,8 +211,8 @@ let make_move pos m del =
                     | Black -> {tmp with cas_b = (false, false); king_b = (x2,y2)})
         | Rook -> (match (pos.turn, x1, y1) with
                     | (White, 0, 0) -> {tmp with cas_w = no_q_castle(pos.cas_w)}
-                    | (White, 7, 0) -> {tmp with cas_w = no_k_castle(pos.cas_b)}
-                    | (Black, 0, 7) -> {tmp with cas_b = no_q_castle(pos.cas_w)}
+                    | (White, 7, 0) -> {tmp with cas_w = no_k_castle(pos.cas_w)}
+                    | (Black, 0, 7) -> {tmp with cas_b = no_q_castle(pos.cas_b)}
                     | (Black, 7, 7) -> {tmp with cas_b = no_k_castle(pos.cas_b)}
                     | _ -> tmp)
         | Pawn ->
